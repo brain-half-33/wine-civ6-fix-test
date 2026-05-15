@@ -70,6 +70,16 @@ jobs:
 
       - name: Configure wine64
         run: |
+          echo "Bison path:"
+          which bison
+          bison --version
+
+          export PATH="$(brew --prefix bison)/bin:$PATH"
+
+          echo "Bison path after fix:"
+          which bison
+          bison --version
+          
           set -x
 
           export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
