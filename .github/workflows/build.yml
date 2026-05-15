@@ -108,6 +108,18 @@ jobs:
             --without-x
           popd
 
+      - name: Patch Wine asm labels for Xcode 16
+        run: |
+          set -eux
+
+          perl -0pi -e 's/wine_syscall_dispatcher_prolog_end:/Lwine_syscall_dispatcher_prolog_end:/g' dlls/ntdll/unix/signal_x86_64.c
+          perl -0pi -e 's/wine_syscall_dispatcher_return:/Lwine_syscall_dispatcher_return:/g' dlls/ntdll/unix/signal_x86_64.c
+
+          perl -0pi -e 's/wine_syscall_dispatcher_prolog_end:/Lwine_syscall_dispatcher_prolog_end:/g' dlls/ntdll/unix/signal_arm64.c
+          perl -0pi -e 's/wine_syscall_dispatcher_return:/Lwine_syscall_dispatcher_return:/g' dlls/ntdll/unix/signal_arm64.c
+
+          grep -R "Lwine_syscall_dispatcher" dlls/ntdll/unix/signal_*.c
+
       - name: Build wine64
         run: |
           pushd ${{ env.BUILDROOT }}/wine64
