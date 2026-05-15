@@ -76,21 +76,17 @@ jobs:
           export YACC="$(brew --prefix bison)/bin/bison -y"
           export PATH="$(brew --prefix bison)/bin:$PATH"
 
-          echo "Using BISON=$BISON"
-          "$BISON" --version
-          which bison
-          bison --version
+          export CROSSCC="$(brew --prefix mingw-w64)/bin/x86_64-w64-mingw32-gcc"
+          export CROSSCXX="$(brew --prefix mingw-w64)/bin/x86_64-w64-mingw32-g++"
 
           echo "Checking MinGW:"
-          ls  "$(brew --prefix mingw-w64)/bin" grep mingw || true
-          which x86-w64-mingw32-gcc || true
+          ls "$(brew --prefix mingw-w64)/bin" | grep mingw || true
+          which x86_64-w64-mingw32-gcc || true
           "$CROSSCC" --version
-          
-          set -x
 
+          set -x
           export ac_cv_lib_soname_MoltenVK="libMoltenVK.dylib"
           export ac_cv_lib_soname_vulkan=""
-
           mkdir -p ${{ env.BUILDROOT }}/wine64
           pushd ${{ env.BUILDROOT }}/wine64
           ${{ env.WINE_CONFIGURE }} \
@@ -98,36 +94,8 @@ jobs:
             --disable-tests \
             --disable-winedbg \
             --enable-win64 \
-            --without-alsa \
-            --without-capi \
-            --with-coreaudio \
-            --with-cups \
-            --without-dbus \
-            --without-fontconfig \
-            --with-freetype \
-            --with-gettext \
-            --without-gettextpo \
-            --without-gphoto \
-            --with-gnutls \
-            --without-gssapi \
-            --with-gstreamer \
-            --without-krb5 \
             --with-mingw \
-            --without-netapi \
-            --with-opencl \
-            --with-opengl \
-            --without-oss \
-            --with-pcap \
-            --with-pthread \
-            --without-pulse \
-            --without-sane \
-            --with-sdl \
-            --without-udev \
-            --with-unwind \
-            --without-usb \
-            --without-v4l2 \
-            --with-vulkan \
-            --without-x 
+            --without-x
           popd
 
       - name: Build wine64
