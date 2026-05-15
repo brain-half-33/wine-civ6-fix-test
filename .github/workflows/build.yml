@@ -80,6 +80,11 @@ jobs:
           "$BISON" --version
           which bison
           bison --version
+
+          echo "Checking MinGW:"
+          ls  "$(brew --prefix mingw-w64)/bin" grep mingw || true
+          which x86-w64-mingw32-gcc || true
+          "$CROSSCC" --version
           
           set -x
 
