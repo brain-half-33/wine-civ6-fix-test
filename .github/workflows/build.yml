@@ -25,8 +25,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Xcode 15
-        run: sudo xcode-select -switch /Applications/Xcode_15.2.app/Contents/Developer
+      - name: Use available Xcode
+        run: 
+              Is /Application | grep Xcode
+              sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+              xcodebuild -version
 
       - name: Install Homebrew Packages
         continue-on-error: true
