@@ -27,7 +27,7 @@ jobs:
 
       - name: Use available Xcode
         run: |
-          Is /Application | grep Xcode
+          ls /Application | grep Xcode
           sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
           xcodebuild -version
 
